@@ -10,13 +10,13 @@
  * Text Domain: plugin-text-domain
  * Domaine Path: /lang
  */
-define( 'PLUGIN_NAME', 'The plugin name' );
-define( 'PN_TEXT_DOMAIN', 'plugin-name' );
-define( 'PN_PLUGIN_DIR', __DIR__ );
-define( 'PN_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
-define( 'PN_OPTIONS', 'pn_options' );
+require_once 'config.php';
 require_once 'PnAutoload.php';
 
+/**
+ * Class Pn
+ * This is the main class of the plugin
+ */
 class Pn
 {
 
@@ -29,16 +29,77 @@ class Pn
     static function init()
     {
         self::$options = [
-            'step_one' => [
+            'tab_one' => [
                 'page_title'       => __( 'The plugin name', PN_PLUGIN_DIR ),
                 'page_description' => __( 'Manage post types and taxonomies.', PN_PLUGIN_DIR ),
                 'fields'           => [
-                    'option_tab' => [
+                    'field_name' => [
                         'label' => __('Label nice name', PN_PLUGIN_DIR),
-                        'field_type' => 'checkbox', // type of input
-                        'option_name' => 'label_name',
+                        'field_type' => 'text', // type of input
+                        'option_name' => 'field_name',
                         'default' => false, // default option
                         'options' => [] // options for selects
+                    ],
+                    'field_name_2' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'textarea', // type of input
+                        'option_name' => 'field_name_2',
+                        'default' => false, // default option
+                        'options' => [] // options for selects
+                    ],
+                    'field_name_3' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'checkbox', // type of input
+                        'option_name' => 'field_name_3',
+                        'default' => false, // default option
+                        'options' => [] // options for selects
+                    ],
+                    'field_name_4' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'select', // type of input
+                        'option_name' => 'field_name_4',
+                        'default' => false, // default option
+                        'options' => [
+                            'foo',
+                            'bar'
+                        ] // options for selects
+                    ]
+                ]
+            ],
+            'tab_two' => [
+                'page_title'       => __( 'The plugin name', PN_PLUGIN_DIR ),
+                'page_description' => __( 'Manage post types and taxonomies.', PN_PLUGIN_DIR ),
+                'fields'           => [
+                    'field_name' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'text', // type of input
+                        'option_name' => 'field_name',
+                        'default' => false, // default option
+                        'options' => [] // options for selects
+                    ],
+                    'field_name_2' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'textarea', // type of input
+                        'option_name' => 'field_name_2',
+                        'default' => false, // default option
+                        'options' => [] // options for selects
+                    ],
+                    'field_name_3' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'checkbox', // type of input
+                        'option_name' => 'field_name_3',
+                        'default' => false, // default option
+                        'options' => [] // options for selects
+                    ],
+                    'field_name_4' => [
+                        'label' => __('Label nice name', PN_PLUGIN_DIR),
+                        'field_type' => 'select', // type of input
+                        'option_name' => 'field_name_4',
+                        'default' => false, // default option
+                        'options' => [
+                            'foo',
+                            'bar'
+                        ] // options for selects
                     ]
                 ]
             ]
@@ -46,22 +107,20 @@ class Pn
 
         // Loads plugin text domain and scripts
         add_action( 'after_setup_theme', [__CLASS__, 'pn_theme_setup'] );
-        add_action( 'admin_enqueue_scripts', [__CLASS__, 'pn_admin_scripts'] );
+        add_action( 'admin_enqueue_scripts', [__CLASS__, 'pn_scripts'] );
 
         // Custom action hooks
-        // add_action( 'get_types', [new PnPostsManager, 'pn_step_one'], 10, 2 );
 
         // Ajax action hooks
-        // add_action( 'wp_ajax_pn_ajax_get_post_taxonomies', array(new PnAjax, 'pn_ajax_get_post_taxonomies') );
     }
 
-    static function pn_admin_scripts()
+    static function pn_scripts()
     {
         // loads admin script
-        wp_register_script( 'pn-admin-scripts', PN_PLUGIN_DIR_URL . 'assets/js/PnAdminScripts.js', ['jquery'], '0.1', TRUE );
-        wp_enqueue_script( 'pn-admin-scripts' );
+        wp_register_script( 'pn-scripts', PN_PLUGIN_DIR_URL . 'assets/js/pn_scripts.js', ['jquery'], '0.1', TRUE );
+        wp_enqueue_script( 'pn-scripts' );
         // Localize scripts
-        wp_localize_script( 'pn-admin-scripts', 'ajaxscript', ['ajaxurl' => admin_url( 'admin-ajax.php' )] );
+        wp_localize_script( 'pn-scripts', 'pn', ['ajaxurl' => admin_url( 'admin-ajax.php' )] );
     }
 
     /**

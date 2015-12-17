@@ -19,5 +19,4 @@ spl_autoload_register(function ($class) {
 /**
  * Classes can be instanciated here
  */
-$dBug = new dBug(); // debug class
 $PnOptions = new PnOptions(); // plugin options class
